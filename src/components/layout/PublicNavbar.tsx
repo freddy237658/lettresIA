@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 import { LinkButton } from '@/components/ui/Button'
+import { LanguageSelector } from '@/components/ui/LanguageSelector'
 
 const links = [
   { to: '/', label: 'Accueil' },
@@ -59,6 +60,7 @@ export function PublicNavbar() {
               </LinkButton>
             </>
           )}
+          <LanguageSelector />
         </div>
 
         <button
@@ -88,6 +90,7 @@ export function PublicNavbar() {
             ))}
           </nav>
           <div className="mt-3 flex flex-col gap-2 border-t border-slate-100 pt-3">
+            <LanguageSelector />
             {isAuthenticated ? (
               <LinkButton to="/app/tableau-de-bord" variant="primary">
                 Tableau de bord

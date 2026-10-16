@@ -67,7 +67,12 @@ export function Footer() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-100 pt-6 sm:flex-row">
           <p className="text-xs text-slate-400">© {new Date().getFullYear()} LettreAI — Projet Applications web de création de lettre.</p>
-          <p className="text-xs text-slate-400">Fait avec React, TypeScript & Laravel.</p>
+          <div className="flex items-center gap-4">
+            <Link to="/admin/connexion" className="text-xs text-slate-400 hover:text-indigo-600">
+              Espace administrateur
+            </Link>
+            <p className="text-xs text-slate-400">Fait avec React, TypeScript & Laravel.</p>
+          </div>
         </div>
       </div>
     </footer>

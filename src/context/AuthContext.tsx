@@ -12,9 +12,11 @@ interface RegisterInput {
 interface AuthContextValue {
   user: User | null
   isAuthenticated: boolean
+  isAdmin: boolean
   credits: number
   plan: 'gratuit' | 'premium' | 'entreprise'
   login: (email: string, password: string) => Promise<void>
+  loginAsAdmin: (email: string, password: string) => Promise<void>
   register: (input: RegisterInput) => Promise<void>
   logout: () => void
   updateProfile: (patch: Partial<User>) => void
@@ -55,7 +57,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Prototype: any password is accepted — the real call is POST /api/auth/login
     await new Promise((r) => setTimeout(r, 500))
     const existing = readStore<User | null>('user', null)
-    setUser(existing ?? { ...DEFAULT_USER, email })
+    setUser(existing?.role === 'admin' ? { ...existing, role: 'utilisateur' } : (existing ?? { ...DEFAULT_USER, email, role: 'utilisateur' }))
+  }
+
+  async function loginAsAdmin(email: string) {
+    // Prototype: any password is accepted — the real call would check a Laravel policy/role.
+    await new Promise((r) => setTimeout(r, 500))
+    setUser({ ...DEFAULT_USER, email, firstName: 'Admin', role: 'admin' })
+    setPlanState('entreprise')
+    setCredits(Infinity)
   }
 
   async function register(input: RegisterInput) {
@@ -70,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       country: 'Cameroun',
       profession: '',
       institution: '',
+      role: 'utilisateur',
     })
     setCredits(5)
     setPlanState('gratuit')
@@ -101,9 +112,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       value={{
         user,
         isAuthenticated: !!user,
+        isAdmin: user?.role === 'admin',
         credits,
         plan,
         login,
+        loginAsAdmin,
         register,
         logout,
         updateProfile,

@@ -1,7 +1,9 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import { PublicLayout } from '@/components/layout/PublicLayout'
 import { AppLayout } from '@/components/layout/AppLayout'
+
+import { AdminLayout } from '@/components/layout/AdminLayout'
 
 import Home from '@/pages/Home'
 import Login from '@/pages/Login'
@@ -21,6 +23,17 @@ import LetterView from '@/pages/LetterView'
 import Favorites from '@/pages/Favorites'
 import Account from '@/pages/Account'
 import Settings from '@/pages/Settings'
+
+// les pages admin 
+
+import AdminLogin from '@/pages/admin/AdminLogin'
+import AdminDashboard from '@/pages/admin/AdminDashboard'
+import AdminUsers from '@/pages/admin/AdminUsers'
+import AdminCatalog from '@/pages/admin/AdminCatalog'
+import AdminPricing from '@/pages/admin/AdminPricing'
+import AdminPayments from '@/pages/admin/AdminPayments'
+import AdminAI from '@/pages/admin/AdminAI'
+import AdminContent from '@/pages/admin/AdminContent'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -50,6 +63,9 @@ export default function App() {
           <Route path="/faq" element={<Faq />} />
         </Route>
 
+
+ 
+
         <Route path="/app" element={<AppLayout />}>
           <Route path="tableau-de-bord" element={<Dashboard />} />
           <Route path="creer/:templateId" element={<CreateLetter />} />
@@ -58,6 +74,18 @@ export default function App() {
           <Route path="favoris" element={<Favorites />} />
           <Route path="mon-compte" element={<Account />} />
           <Route path="parametres" element={<Settings />} />
+        </Route>
+
+        <Route path="/admin/connexion" element={<AdminLogin />} />
+        <Route path="/admin/login" element={<Navigate to="/admin/connexion" replace />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="utilisateurs" element={<AdminUsers />} />
+          <Route path="catalogue" element={<AdminCatalog />} />
+          <Route path="tarification" element={<AdminPricing />} />
+          <Route path="paiements" element={<AdminPayments />} />
+          <Route path="ia" element={<AdminAI />} />
+          <Route path="contenus" element={<AdminContent />} />
         </Route>
 
         <Route path="*" element={<PublicLayout />}>

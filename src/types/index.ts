@@ -124,3 +124,61 @@ export interface Plan {
   highlight?: boolean
   cta: string
 }
+
+
+/* ---------------------------------------------------------------------- */
+/* Espace administrateur (§12 du cahier des charges)                      */
+/* ---------------------------------------------------------------------- */
+
+export interface AdminUserRow {
+  id: string
+  name: string
+  email: string
+  role: Role
+  plan: PlanId
+  lettersCount: number
+  joinedAt: string
+  status: 'actif' | 'suspendu'
+}
+
+export interface User {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  city: string
+  country: string
+  profession: string
+  institution: string
+  role?: Role
+}
+
+export type Role = 'utilisateur' | 'premium' | 'admin'
+
+export type AIProviderName = 'Gemini' | 'Groq' | 'Mistral' | 'OpenRouter' | 'Ollama'
+
+export interface AIProviderStatus {
+  name: AIProviderName
+  status: 'ok' | 'quota' | 'indisponible'
+  latencyMs: number
+  usagePercent: number
+  callsToday: number
+}
+
+export interface AILog {
+  id: string
+  task: 'generate' | 'rewrite' | 'correct' | 'shorten' | 'expand'
+  provider: AIProviderName
+  status: 'succes' | 'fallback' | 'erreur'
+  latencyMs: number
+  userEmail: string
+  createdAt: string
+}
+
+export interface AdminActivity {
+  id: string
+  text: string
+  createdAt: string
+  icon: string
+}
